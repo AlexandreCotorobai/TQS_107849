@@ -6,7 +6,7 @@
 
 The CuponEuromillions class currently has the lowest test coverage at 34%. However, the untested methods, namely format() and countDips(), are not crucial to the class's core logic. Therefore, while not all possible branches are covered, the essential functionality is tested.
 
-![image](./../lab1/images/scrn1.png)
+![image](./../lab1/images/before1.png)
 
 <!-- ![image](./../lab1/images/scrn2.png) -->
 
