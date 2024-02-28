@@ -17,7 +17,7 @@ public class StocksPortfolio{
     }
 
     public double totalValue() {
-        double value = 0;
+        double value = 0.0;
         for (Stock stock : stocks) {
             value += stockmarket.lookUpPrice(stock.getLabel()) * stock.getQuantity();
         }
