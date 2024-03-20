@@ -37,3 +37,9 @@ Feature: Basic Arithmetic
       | a | b | c |
       | 9 | 1 | 8 |
       | 8 | 4 | 4 |
+  
+  Scenario Outline: Invalid Division
+    When I divide 1 by 0
+    Then I get an exception
+
+    

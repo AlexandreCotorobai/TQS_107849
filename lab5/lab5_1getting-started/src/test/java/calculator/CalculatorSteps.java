@@ -16,6 +16,7 @@ public class CalculatorSteps {
     static final Logger log = getLogger(lookup().lookupClass());
 
     private Calculator calc;
+    private Exception exception;
 
     @Given("a calculator I just turned on")
     public void setup() {
@@ -56,9 +57,21 @@ public class CalculatorSteps {
     @When("I divide {int} by {int}")
     public void divide(int arg1, int arg2) {
         log.debug("Dividing {} by {}", arg1, arg2);
-        calc.push(arg1);
-        calc.push(arg2);
-        calc.push("/");
+        try {
+            calc.push(arg1);
+            calc.push(arg2);
+            calc.push("/");
+        } catch (ArithmeticException e) {
+            this.exception = e;
+        }
     }
+
+    @Then("I get an exception")
+    public void i_get_an_exception() {
+        log.debug("Exception: {}", exception.getClass());
+        assertEquals(ArithmeticException.class, exception.getClass());
+    }
+
+
 
 }
