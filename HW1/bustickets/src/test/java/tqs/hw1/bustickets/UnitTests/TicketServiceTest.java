@@ -1,4 +1,4 @@
-package tqs.hw1.bustickets;
+package tqs.hw1.bustickets.UnitTests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import tqs.hw1.bustickets.repositories.TicketRepository;
 import tqs.hw1.bustickets.services.TicketServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class TicketServiceTest {
+class TicketServiceTest {
 
     @Mock
     private TicketRepository ticketRepository;
@@ -31,13 +31,13 @@ public class TicketServiceTest {
     private TicketServiceImpl ticketService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         reset(ticketRepository);
     }
 
     @Test
     @DisplayName("Test buying Ticket")
-    public void whenValidTicket_thenTicketShouldBeSaved() {
+    void whenValidTicket_thenTicketShouldBeSaved() {
         Ticket ticket = new Ticket();
         ticket.setTripId(1);
         ticket.setIssueDateTime(new Date());
@@ -55,7 +55,7 @@ public class TicketServiceTest {
 
     @Test
     @DisplayName("Test get ticket by id")
-    public void whenValidId_thenTicketShouldBeReturned() {
+    void whenValidId_thenTicketShouldBeReturned() {
         Ticket ticket = new Ticket();
         ticket.setId(1);
         Mockito.when(ticketRepository.findById(1L)).thenReturn(Optional.of(ticket));
@@ -68,7 +68,7 @@ public class TicketServiceTest {
 
     @Test
     @DisplayName("Test get ticket by id not found")
-    public void whenInvalidId_thenNullShouldBeReturned() {
+    void whenInvalidId_thenNullShouldBeReturned() {
         Mockito.when(ticketRepository.findById(99L)).thenReturn(Optional.empty());
 
         Ticket found = ticketService.getTicketById(99);
@@ -79,7 +79,7 @@ public class TicketServiceTest {
 
     @Test
     @DisplayName("Test get all tickets")
-    public void whenGetTickets_thenAllTicketsShouldBeReturned() {
+    void whenGetTickets_thenAllTicketsShouldBeReturned() {
         List<Ticket> tickets = Arrays.asList(new Ticket(), new Ticket());
         Mockito.when(ticketRepository.findAll()).thenReturn(tickets);
 
@@ -91,7 +91,7 @@ public class TicketServiceTest {
 
     @Test
     @DisplayName("Test get reservations by email")
-    public void whenValidEmail_thenReservationsShouldBeReturned() {
+    void whenValidEmail_thenReservationsShouldBeReturned() {
         List<Ticket> tickets = Arrays.asList(new Ticket(), new Ticket());
         Mockito.when(ticketRepository.findByEmail("john.doe@example.com")).thenReturn(tickets);
 
