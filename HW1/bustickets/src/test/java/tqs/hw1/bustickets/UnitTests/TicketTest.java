@@ -3,7 +3,6 @@ package tqs.hw1.bustickets.UnitTests;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import java.util.Date;
 
 import tqs.hw1.bustickets.entities.Ticket;
 
@@ -27,7 +26,7 @@ class TicketTest {
     @Test
     void testIssueDateTime() {
         Ticket ticket = new Ticket();
-        Date issueDateTime = new Date();
+        String issueDateTime = "2021-06-01 12:00:00";
         ticket.setIssueDateTime(issueDateTime);
         assertEquals(issueDateTime, ticket.getIssueDateTime());
     }
@@ -75,24 +74,24 @@ class TicketTest {
     @Test
     void testExpirationDate() {
         Ticket ticket = new Ticket();
-        Date expirationDate = new Date();
+        String expirationDate = "2021-06-01 12:00:00";
         ticket.setExpirationDate(expirationDate);
         assertEquals(expirationDate, ticket.getExpirationDate());
     }
 
     @Test
     void testAllArgsConstructor() {
-        int id = 1;
+        int id = 0;
         int tripId = 2;
-        Date issueDateTime = new Date();
+        String issueDateTime = "2021-06-01 12:00:00";
         String name = "Test Name";
         String email = "test@example.com";
         String phone = "1234567890";
         int creditCardNumber = 12345678;
         int cvv = 123;
-        Date expirationDate = new Date();
+        String expirationDate = "2021-06-01 12:00:00";
 
-        Ticket ticket = new Ticket(id, tripId, issueDateTime, name, email, phone, creditCardNumber, cvv,
+        Ticket ticket = new Ticket(tripId, issueDateTime, name, email, phone, creditCardNumber, cvv,
                 expirationDate);
 
         assertEquals(id, ticket.getId());
@@ -104,5 +103,6 @@ class TicketTest {
         assertEquals(creditCardNumber, ticket.getCreditCardNumber());
         assertEquals(cvv, ticket.getCvv());
         assertEquals(expirationDate, ticket.getExpirationDate());
+
     }
 }

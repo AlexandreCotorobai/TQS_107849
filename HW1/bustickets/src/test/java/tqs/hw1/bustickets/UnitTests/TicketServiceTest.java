@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.reset;
 import org.junit.jupiter.api.DisplayName;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Arrays;
@@ -40,13 +39,13 @@ class TicketServiceTest {
     void whenValidTicket_thenTicketShouldBeSaved() {
         Ticket ticket = new Ticket();
         ticket.setTripId(1);
-        ticket.setIssueDateTime(new Date());
+        ticket.setIssueDateTime("2021-06-01 12:00:00");
         ticket.setName("John Doe");
         ticket.setEmail("john.doe@example.com");
         ticket.setPhone("1234567890");
         ticket.setCreditCardNumber(12345678);
         ticket.setCvv(123);
-        ticket.setExpirationDate(new Date());
+        ticket.setExpirationDate("2021-06-01 12:00:00");
 
         ticketService.buyTicket(ticket);
 

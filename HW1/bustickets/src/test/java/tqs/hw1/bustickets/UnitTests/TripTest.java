@@ -80,7 +80,7 @@ class TripTest {
 
     @Test
     void testAllArgsConstructor() {
-        int id = 1;
+        // int id = 1;
         String origin = "Origin";
         String destination = "Destination";
         String departureDateTime = "2022-01-01T10:00:00";
@@ -90,9 +90,9 @@ class TripTest {
         String currency = "USD";
         int availableSeats = 50;
 
-        Trip trip = new Trip(id, origin, destination, departureDateTime, arrivalDateTime, company, price, currency, availableSeats);
+        Trip trip = new Trip(origin, destination, departureDateTime, arrivalDateTime, company, price, currency, availableSeats);
 
-        assertEquals(id, trip.getId());
+        // assertEquals(id, trip.getId());
         assertEquals(origin, trip.getOrigin());
         assertEquals(destination, trip.getDestination());
         assertEquals(departureDateTime, trip.getDepartureDateTime());

@@ -51,10 +51,10 @@ class TripServiceTest {
 
     @Test
     void testGetTrips() {
-        Trip trip1 = new Trip(1, "Origin1", "Destination1", "2022-01-01T10:00:00",
+        Trip trip1 = new Trip("Origin1", "Destination1", "2022-01-01T10:00:00",
                 "2022-01-01T12:00:00", "Company1",
                 100.0, "USD", 50);
-        Trip trip2 = new Trip(2, "Origin2", "Destination2", "2022-01-01T10:00:00",
+        Trip trip2 = new Trip("Origin2", "Destination2", "2022-01-01T10:00:00",
                 "2022-01-01T12:00:00", "Company2",
                 200.0, "EUR", 60);
         List<Trip> allTrips = Arrays.asList(trip1, trip2);
@@ -71,7 +71,7 @@ class TripServiceTest {
     @Test
     void testGetTrips_AllParameters() {
         Mockito.when(tripRepository.findAll()).thenReturn(Arrays.asList(
-                new Trip(1, "Origin1", "Destination1", "2022-01-01T10:00:00",
+                new Trip("Origin1", "Destination1", "2022-01-01T10:00:00",
                         "2022-01-01T12:00:00", "Company1", 100.0,
                         "USD", 50)));
 
@@ -87,10 +87,10 @@ class TripServiceTest {
     @Test
     void testGetTrips_AllNull() {
         Mockito.when(tripRepository.findAll()).thenReturn(Arrays.asList(
-                new Trip(1, "Origin1", "Destination1", "2022-01-01T10:00:00",
+                new Trip("Origin1", "Destination1", "2022-01-01T10:00:00",
                         "2022-01-01T12:00:00", "Company1", 100.0,
                         "USD", 50),
-                new Trip(2, "Origin2", "Destination2", "2022-01-01T10:00:00",
+                new Trip("Origin2", "Destination2", "2022-01-01T10:00:00",
                         "2022-01-01T12:00:00", "Company2", 200.0,
                         "EUR", 60)));
 
@@ -103,7 +103,7 @@ class TripServiceTest {
     @MethodSource("provideTripsForTesting")
     void testGetTrips_NoMatch(String startLocation, String endLocation, String company, String dateTime) {
         Mockito.when(tripRepository.findAll()).thenReturn(Arrays.asList(
-                new Trip(1, "Origin1", "Destination1", "2022-01-01T10:00:00",
+                new Trip("Origin1", "Destination1", "2022-01-01T10:00:00",
                         "2022-01-01T12:00:00", "Company1", 100.0,
                         "USD", 50)));
 
@@ -115,7 +115,7 @@ class TripServiceTest {
 
     @Test
     void testGetTripById() {
-        Trip trip1 = new Trip(1, "Origin1", "Destination1", "2022-01-01T10:00:00", "2022-01-01T12:00:00", "Company1",
+        Trip trip1 = new Trip("Origin1", "Destination1", "2022-01-01T10:00:00", "2022-01-01T12:00:00", "Company1",
                 100.0, "USD", 50);
         Mockito.when(tripRepository.findById(1L)).thenReturn(Optional.of(trip1));
         Trip trip = tripService.getTripById(1L);

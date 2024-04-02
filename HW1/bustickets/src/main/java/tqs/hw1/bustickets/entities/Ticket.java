@@ -1,13 +1,11 @@
 package tqs.hw1.bustickets.entities;
 
-import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,17 +14,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "ticket")
 public class Ticket {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     private int tripId;
 
-    private Date issueDateTime;
+    private String issueDateTime;
 
     private String name;
     
@@ -38,5 +35,16 @@ public class Ticket {
 
     private int cvv;
 
-    private Date expirationDate;
+    private String expirationDate;
+
+    public Ticket(int tripId, String issueDateTime, String name, String email, String phone, int creditCardNumber, int cvv, String expirationDate) {
+        this.tripId = tripId;
+        this.issueDateTime = issueDateTime;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.creditCardNumber = creditCardNumber;
+        this.cvv = cvv;
+        this.expirationDate = expirationDate;
+    }
 }
