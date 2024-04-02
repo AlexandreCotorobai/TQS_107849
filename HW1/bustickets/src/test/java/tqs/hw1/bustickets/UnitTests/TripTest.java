@@ -79,7 +79,7 @@ class TripTest {
     }
 
     @Test
-    void testConstructor() {
+    void testAllArgsConstructor() {
         int id = 1;
         String origin = "Origin";
         String destination = "Destination";
