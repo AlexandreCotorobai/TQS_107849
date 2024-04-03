@@ -19,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import tqs.hw1.bustickets.controllers.TicketRestController;
 import tqs.hw1.bustickets.services.TicketService;
@@ -41,7 +40,7 @@ class TicketController_WithMockServiceTest {
 
     @Test
     void whenPostTicket_thenBuyTicket() throws Exception {
-        Ticket ticket = new Ticket(/* initialize fields here */);
+        Ticket ticket = new Ticket(1, "2024-01-01 18:00:00", "Test Ticket", "test@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
 
         when(service.buyTicket(Mockito.any())).thenReturn(ticket);
 
@@ -55,9 +54,9 @@ class TicketController_WithMockServiceTest {
 
     @Test
     void givenManyTickets_whenGetTickets_thenReturnJsonArray() throws Exception {
-        Ticket ticket1 = new Ticket(/* initialize fields here */);
-        Ticket ticket2 = new Ticket(/* initialize fields here */);
-        Ticket ticket3 = new Ticket(/* initialize fields here */);
+        Ticket ticket1 = new Ticket(1, "2024-01-01 18:00:00", "Test Ticket1", "test1@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
+        Ticket ticket2 = new Ticket(1, "2024-01-01 18:00:00", "Test Ticket2", "test2@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
+        Ticket ticket3 = new Ticket(1, "2024-01-01 18:00:00", "Test Ticket3", "test3@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
 
         List<Ticket> allTickets = Arrays.asList(ticket1, ticket2, ticket3);
 
@@ -76,7 +75,7 @@ class TicketController_WithMockServiceTest {
 
     @Test
     void whenGetTicketByID_thenReturnJson() throws Exception {
-        Ticket ticket = new Ticket(/* initialize fields here */);
+        Ticket ticket = new Ticket(1, "2024-01-01 18:00:00", "Test Ticket", "test@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
 
         when(service.getTicketById(ticket.getId())).thenReturn(ticket);
 
