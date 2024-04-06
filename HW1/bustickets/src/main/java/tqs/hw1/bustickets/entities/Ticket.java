@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,30 +23,51 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
     private int tripId;
 
-    private String issueDateTime;
-
+    @NotNull
+    @Size(min = 3, max = 30)
     private String name;
     
+    @NotNull
+    @Size(min = 3, max = 255)
     private String email;
 
+    @NotNull
+    @Size(min = 3, max = 20)
     private String phone;
 
+    @NotNull
     private int creditCardNumber;
 
+    @NotNull
     private int cvv;
 
+    @NotNull
     private String expirationDate;
 
-    public Ticket(int tripId, String issueDateTime, String name, String email, String phone, int creditCardNumber, int cvv, String expirationDate) {
+    public Ticket(int tripId, String name, String email, String phone, int creditCardNumber, int cvv, String expirationDate) {
         this.tripId = tripId;
-        this.issueDateTime = issueDateTime;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.creditCardNumber = creditCardNumber;
         this.cvv = cvv;
         this.expirationDate = expirationDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", tripId=" + tripId +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", creditCardNumber=" + creditCardNumber +
+                ", cvv=" + cvv +
+                ", expirationDate='" + expirationDate + '\'' +
+                '}';
     }
 }

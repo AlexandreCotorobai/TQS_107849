@@ -10,15 +10,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.Arrays;
-import java.util.List;
 
 import tqs.hw1.bustickets.controllers.TicketRestController;
 import tqs.hw1.bustickets.services.TicketService;
@@ -40,7 +36,7 @@ class TicketController_WithMockServiceTest {
 
     @Test
     void whenPostTicket_thenBuyTicket() throws Exception {
-        Ticket ticket = new Ticket(1, "2024-01-01 18:00:00", "Test Ticket", "test@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
+        Ticket ticket = new Ticket(1, "Test Ticket", "test@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
 
         when(service.buyTicket(Mockito.any())).thenReturn(ticket);
 
@@ -53,29 +49,8 @@ class TicketController_WithMockServiceTest {
     }
 
     @Test
-    void givenManyTickets_whenGetTickets_thenReturnJsonArray() throws Exception {
-        Ticket ticket1 = new Ticket(1, "2024-01-01 18:00:00", "Test Ticket1", "test1@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
-        Ticket ticket2 = new Ticket(1, "2024-01-01 18:00:00", "Test Ticket2", "test2@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
-        Ticket ticket3 = new Ticket(1, "2024-01-01 18:00:00", "Test Ticket3", "test3@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
-
-        List<Ticket> allTickets = Arrays.asList(ticket1, ticket2, ticket3);
-
-        when(service.getTickets()).thenReturn(allTickets);
-
-        mvc.perform(
-                get("/api/tickets").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[0].name", is(ticket1.getName())))
-                .andExpect(jsonPath("$[1].name", is(ticket2.getName())))
-                .andExpect(jsonPath("$[2].name", is(ticket3.getName())));
-
-        verify(service, times(1)).getTickets();
-    }
-
-    @Test
     void whenGetTicketByID_thenReturnJson() throws Exception {
-        Ticket ticket = new Ticket(1, "2024-01-01 18:00:00", "Test Ticket", "test@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
+        Ticket ticket = new Ticket(1, "Test Ticket", "test@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
 
         when(service.getTicketById(ticket.getId())).thenReturn(ticket);
 

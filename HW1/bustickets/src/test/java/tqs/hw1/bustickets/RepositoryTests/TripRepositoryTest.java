@@ -12,7 +12,7 @@ import tqs.hw1.bustickets.entities.Trip;
 import tqs.hw1.bustickets.repositories.TripRepository;
 
 @DataJpaTest
-public class TripRepositoryTest {
+class TripRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -22,7 +22,7 @@ public class TripRepositoryTest {
 
 
     @Test
-    public void whenFindById_thenReturnTrip() {
+    void whenFindById_thenReturnTrip() {
         Trip trip = new Trip();
         trip.setOrigin("Test Origin");
         trip.setDestination("Test Destination");
@@ -38,14 +38,14 @@ public class TripRepositoryTest {
     }
 
     @Test
-    public void whenInvalidId_thenReturnNull() {
+    void whenInvalidId_thenReturnNull() {
         Trip fromDb = tripRepository.findById(-11L).orElse(null);
 
         assertThat(fromDb).isNull();
     }
 
     @Test
-    public void givenSetOfTrips_whenFindAll_thenReturnAllTrips() {
+    void givenSetOfTrips_whenFindAll_thenReturnAllTrips() {
         Trip trip1 = new Trip();
         trip1.setOrigin("Test Origin 1");
         trip1.setDestination("Test Destination 1");

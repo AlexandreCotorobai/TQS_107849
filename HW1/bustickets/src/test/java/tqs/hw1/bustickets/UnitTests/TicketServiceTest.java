@@ -39,7 +39,6 @@ class TicketServiceTest {
     void whenValidTicket_thenTicketShouldBeSaved() {
         Ticket ticket = new Ticket();
         ticket.setTripId(1);
-        ticket.setIssueDateTime("2021-06-01 12:00:00");
         ticket.setName("John Doe");
         ticket.setEmail("john.doe@example.com");
         ticket.setPhone("1234567890");

@@ -24,14 +24,6 @@ class TicketTest {
     }
 
     @Test
-    void testIssueDateTime() {
-        Ticket ticket = new Ticket();
-        String issueDateTime = "2021-06-01 12:00:00";
-        ticket.setIssueDateTime(issueDateTime);
-        assertEquals(issueDateTime, ticket.getIssueDateTime());
-    }
-
-    @Test
     void testName() {
         Ticket ticket = new Ticket();
         String name = "Test Name";
@@ -83,7 +75,6 @@ class TicketTest {
     void testAllArgsConstructor() {
         int id = 0;
         int tripId = 2;
-        String issueDateTime = "2021-06-01 12:00:00";
         String name = "Test Name";
         String email = "test@example.com";
         String phone = "1234567890";
@@ -91,12 +82,11 @@ class TicketTest {
         int cvv = 123;
         String expirationDate = "2021-06-01 12:00:00";
 
-        Ticket ticket = new Ticket(tripId, issueDateTime, name, email, phone, creditCardNumber, cvv,
+        Ticket ticket = new Ticket(tripId, name, email, phone, creditCardNumber, cvv,
                 expirationDate);
 
         assertEquals(id, ticket.getId());
         assertEquals(tripId, ticket.getTripId());
-        assertEquals(issueDateTime, ticket.getIssueDateTime());
         assertEquals(name, ticket.getName());
         assertEquals(email, ticket.getEmail());
         assertEquals(phone, ticket.getPhone());
