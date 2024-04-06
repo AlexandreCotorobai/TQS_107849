@@ -4,9 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
@@ -23,13 +21,9 @@ import tqs.hw1.bustickets.repositories.TicketRepository;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureTestDatabase
+// @AutoConfigureTestDatabase
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
 class TicketRestControllerTemplateIT {
     @LocalServerPort
@@ -59,21 +53,19 @@ class TicketRestControllerTemplateIT {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
+    @Test
+    @DisplayName("POST /tickets BAD REQUEST")
+    void whenInvalidInput_thenStatus400() throws Exception {
+        String status = "{\"tripId\":1,\"name\":\"T\",\"email\":\"test@email.com\",\"phone\":\"1234567890\",\"creditCardNumber\":12345678,\"cvv\":123,\"expirationDate\":\"2021-06-01 12:00:00\"}";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-    // @Test
-    // @DisplayName("POST /tickets BAD REQUEST")
-    // void whenInvalidInput_thenStatus400() throws Exception {
-    //     String status = "{\"tripId\":1,\"name\":\"T\",\"email\":\"test@email.com\",\"phone\":\"1234567890\",\"creditCardNumber\":12345678,\"cvv\":123,\"expirationDate\":\"2021-06-01 12:00:00\"}";
-    //     HttpHeaders headers = new HttpHeaders();
-    //     headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(status, headers);
+        ResponseEntity<Object> response = restTemplate.postForEntity("/api/tickets",
+                entity, Object.class);
 
-    //     HttpEntity<String> entity = new HttpEntity<>(status, headers);
-    //     ResponseEntity<Object> response = restTemplate.postForEntity("/api/tickets",
-    //             entity, Object.class);
-
-    //     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + response.getBody());
-    //     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-    // }
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
 
     @Test
     @DisplayName("GET /tickets/{id} OK")
@@ -87,7 +79,10 @@ class TicketRestControllerTemplateIT {
         restTemplate.postForEntity("/api/tickets", entity,
                 Object.class);
 
-        ResponseEntity<Ticket> response = restTemplate.getForEntity("/api/tickets/3", Ticket.class);
+        String id = repository.findAll().get(0).getId() + "";
+
+        ResponseEntity<Ticket> response = restTemplate.getForEntity("/api/tickets/" + id,
+                Ticket.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
@@ -130,7 +125,8 @@ class TicketRestControllerTemplateIT {
                 });
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).hasSize(0);
+        assertThat(response.getBody()).isEmpty();
     }
+
 
 }

@@ -61,7 +61,7 @@ class TripServiceTest {
 
         Mockito.when(tripRepository.findAll()).thenReturn(allTrips);
 
-        List<Trip> trips = tripService.getTrips("Origin1", "Destination1", null,
+        List<Trip> trips = tripService.getTrips("Origin1", "Destination1",
                 "2022-01-01T10:00:00");
 
         assertThat(trips).hasSize(1).contains(trip1);
@@ -76,7 +76,7 @@ class TripServiceTest {
                         "USD", 50)));
 
         List<Trip> trips = tripService.getTrips("Origin1", "Destination1",
-                "Company1", "2022-01-01T10:00:00");
+                 "2022-01-01T10:00:00");
         assertEquals(1, trips.size());
         assertEquals("Origin1", trips.get(0).getOrigin());
         assertEquals("Destination1", trips.get(0).getDestination());
@@ -94,7 +94,7 @@ class TripServiceTest {
                         "2022-01-01T12:00:00", "Company2", 200.0,
                         "EUR", 60)));
 
-        List<Trip> trips = tripService.getTrips(null, null, null, null);
+        List<Trip> trips = tripService.getTrips(null, null, null);
         assertEquals(2, trips.size());
         Mockito.verify(tripRepository, Mockito.times(1)).findAll();
     }
@@ -107,7 +107,7 @@ class TripServiceTest {
                         "2022-01-01T12:00:00", "Company1", 100.0,
                         "USD", 50)));
 
-        List<Trip> trips = tripService.getTrips(startLocation, endLocation, company, dateTime);
+        List<Trip> trips = tripService.getTrips(startLocation, endLocation, dateTime);
 
         assertTrue(trips.isEmpty());
         Mockito.verify(tripRepository, Mockito.times(1)).findAll();

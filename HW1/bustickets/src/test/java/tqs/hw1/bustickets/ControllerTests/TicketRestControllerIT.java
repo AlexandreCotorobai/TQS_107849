@@ -53,11 +53,10 @@ class TicketRestControllerIT {
 
     @Test
     void whenInvalidInput_thenStatus400() throws Exception {
-        String status = "{\"name\":\"Test\",\"email\":\"test@email.com\",\"phone\":\"1234567890\"";
+        String status = "{\"name\":\"T\",\"email\":\"test@email.com\",\"phone\":\"1234567890\"";
         mvc.perform(post("/api/tickets").contentType(MediaType.APPLICATION_JSON)
                 .content(status))
                 .andExpect(status().isBadRequest());
-
     }
 
     @Test
@@ -95,4 +94,5 @@ class TicketRestControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
+
 }
