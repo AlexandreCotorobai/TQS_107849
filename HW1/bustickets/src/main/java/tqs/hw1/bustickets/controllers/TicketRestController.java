@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import tqs.hw1.bustickets.entities.Ticket;
 import tqs.hw1.bustickets.services.TicketService;
 
@@ -28,14 +29,13 @@ public class TicketRestController {
 
     }
 
-    @GetMapping("/tickets")
-    public ResponseEntity<List<Ticket>> getTickets() {
-        return new ResponseEntity<>(ticketService.getTickets(), HttpStatus.OK);
-    }
-
     @PostMapping("/tickets")
-    public ResponseEntity<Ticket> buyTicket(@RequestBody Ticket ticket) {
-        return new ResponseEntity<>(ticketService.buyTicket(ticket), HttpStatus.CREATED);
+    public ResponseEntity<Ticket> buyTicket(@Valid @RequestBody Ticket ticket) {
+        try {
+            return new ResponseEntity<>(ticketService.buyTicket(ticket), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/reservations")

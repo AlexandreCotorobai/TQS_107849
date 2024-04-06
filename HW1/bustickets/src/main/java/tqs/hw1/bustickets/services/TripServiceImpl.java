@@ -15,12 +15,11 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public List<Trip> getTrips(String startLocation, String endLocation, String company, String dateTime) {
+    public List<Trip> getTrips(String startLocation, String endLocation, String dateTime) {
         List<Trip> allTickets = tripRepository.findAll();
         return allTickets.stream()
                 .filter(trip -> startLocation == null || trip.getOrigin().equals(startLocation))
                 .filter(trip -> endLocation == null || trip.getDestination().equals(endLocation))
-                .filter(trip -> company == null || trip.getCompany().equals(company))
                 .filter(trip -> dateTime == null || trip.getDepartureDateTime().contains(dateTime))
                 .toList();
 

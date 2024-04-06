@@ -56,18 +56,4 @@ public class Ticket {
         this.cvv = cvv;
         this.expirationDate = expirationDate;
     }
-
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "id=" + id +
-                ", tripId=" + tripId +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", creditCardNumber=" + creditCardNumber +
-                ", cvv=" + cvv +
-                ", expirationDate='" + expirationDate + '\'' +
-                '}';
-    }
 }
