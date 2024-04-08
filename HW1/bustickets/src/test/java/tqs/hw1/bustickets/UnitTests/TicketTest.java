@@ -50,7 +50,7 @@ class TicketTest {
     @Test
     void testCreditCardNumber() {
         Ticket ticket = new Ticket();
-        int creditCardNumber = 12345678;
+        long creditCardNumber = 12345678;
         ticket.setCreditCardNumber(creditCardNumber);
         assertEquals(creditCardNumber, ticket.getCreditCardNumber());
     }
@@ -73,19 +73,17 @@ class TicketTest {
 
     @Test
     void testAllArgsConstructor() {
-        int id = 0;
         int tripId = 2;
         String name = "Test Name";
         String email = "test@example.com";
         String phone = "1234567890";
-        int creditCardNumber = 12345678;
+        long creditCardNumber = 12345678;
         int cvv = 123;
         String expirationDate = "2021-06-01 12:00:00";
 
         Ticket ticket = new Ticket(tripId, name, email, phone, creditCardNumber, cvv,
                 expirationDate);
 
-        assertEquals(id, ticket.getId());
         assertEquals(tripId, ticket.getTripId());
         assertEquals(name, ticket.getName());
         assertEquals(email, ticket.getEmail());

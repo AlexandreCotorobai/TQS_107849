@@ -17,7 +17,7 @@ public class TripRestController {
     public TripRestController(TripService tripService) {
         this.tripService = tripService;
     }
-
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/trips")
     public ResponseEntity<List<Trip>> getTripsByLocations(
             @RequestParam(name = "startLocation", required = false) String startLocation,
@@ -30,7 +30,8 @@ public class TripRestController {
         }
         return new ResponseEntity<>(trips, HttpStatus.OK);
     }
-
+    
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/trips/{id}")
     public ResponseEntity<Trip> getTripById(@PathVariable Long id) {
         Trip trip = tripService.getTripById(id);

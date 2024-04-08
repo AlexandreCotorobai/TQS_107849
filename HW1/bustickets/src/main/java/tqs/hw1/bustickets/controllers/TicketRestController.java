@@ -18,7 +18,7 @@ public class TicketRestController {
     public TicketRestController(TicketService ticketService) {
         this.ticketService = ticketService;
     }
-
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/tickets/{id}")
     public ResponseEntity<Ticket> getTicketById(@PathVariable long id) {
         Ticket ticket = ticketService.getTicketById(id);
@@ -29,6 +29,7 @@ public class TicketRestController {
 
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/tickets")
     public ResponseEntity<Ticket> buyTicket(@Valid @RequestBody Ticket ticket) {
         try {
@@ -38,6 +39,7 @@ public class TicketRestController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/reservations")
     public ResponseEntity<List<Ticket>> getReservationsByUser(
             @RequestParam(name = "email", required = false) String email) {

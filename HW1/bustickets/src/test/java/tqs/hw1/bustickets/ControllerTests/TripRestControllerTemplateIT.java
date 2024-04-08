@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 // @AutoConfigureTestDatabase
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
 class TripRestControllerTemplateIT {
-     @LocalServerPort
+    @LocalServerPort
     int randomServerPort;
 
     @Autowired

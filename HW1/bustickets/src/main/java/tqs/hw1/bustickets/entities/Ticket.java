@@ -39,7 +39,7 @@ public class Ticket {
     private String phone;
 
     @NotNull
-    private int creditCardNumber;
+    private long creditCardNumber;
 
     @NotNull
     private int cvv;
@@ -47,7 +47,7 @@ public class Ticket {
     @NotNull
     private String expirationDate;
 
-    public Ticket(int tripId, String name, String email, String phone, int creditCardNumber, int cvv, String expirationDate) {
+    public Ticket(int tripId, String name, String email, String phone, long creditCardNumber, int cvv, String expirationDate) {
         this.tripId = tripId;
         this.name = name;
         this.email = email;

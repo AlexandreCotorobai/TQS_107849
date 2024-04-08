@@ -37,7 +37,7 @@ class TicketController_WithMockServiceTest {
 
     @Test
     void whenPostTicket_thenBuyTicket() throws Exception {
-        Ticket ticket = new Ticket(1, "Test Ticket", "test@email.com", "1234567890", 12345678, 123,
+        Ticket ticket = new Ticket(1, "Test Ticket", "test@email.com", "1234567890", 12345678L, 123,
                 "2021-06-01 12:00:00");
 
         when(service.buyTicket(Mockito.any())).thenReturn(ticket);
@@ -52,7 +52,7 @@ class TicketController_WithMockServiceTest {
 
     @Test
     void whenInvalidTicket_thenBadRequest() throws Exception {
-        Ticket ticket = new Ticket(1, "T", "test@email.com", "1234567890", 12345678, 123, "2021-06-01 12:00:00");
+        Ticket ticket = new Ticket(1, "T", "test@email.com", "1234567890", 12345678L, 123, "2021-06-01 12:00:00");
 
         when(service.buyTicket(Mockito.any())).thenReturn(ticket);
 
@@ -65,7 +65,7 @@ class TicketController_WithMockServiceTest {
 
     @Test
     void whenGetTicketByID_thenReturnJson() throws Exception {
-        Ticket ticket = new Ticket(1, "Test Ticket", "test@email.com", "1234567890", 12345678, 123,
+        Ticket ticket = new Ticket(1, "Test Ticket", "test@email.com", "1234567890", 12345678L, 123,
                 "2021-06-01 12:00:00");
 
         when(service.getTicketById(ticket.getId())).thenReturn(ticket);
@@ -91,7 +91,7 @@ class TicketController_WithMockServiceTest {
 
     @Test
     void whenValidEmail_thenStatus200() throws Exception {
-        Ticket ticket = new Ticket(1, "Test Ticket", "test@email.com", "1234567890", 12345678, 123,
+        Ticket ticket = new Ticket(1, "Test Ticket", "test@email.com", "1234567890", 12345678L, 123,
                 "2021-06-01 12:00:00");
 
         when(service.getReservations("test1")).thenReturn(List.of(ticket));

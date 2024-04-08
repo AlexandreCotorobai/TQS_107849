@@ -29,4 +29,5 @@ public class TripServiceImpl implements TripService {
     public Trip getTripById(Long id) {
         return tripRepository.findById(id).orElse(null);
     }
+
 }
