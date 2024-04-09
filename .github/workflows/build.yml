@@ -22,7 +22,6 @@ jobs:
     defaults:
         run:
             working-directory: HW1/bustickets
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -31,5 +30,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+      - name: Docker dbs
+        run: docker run --name mysql5tqs -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=bustickets -e MYSQL_USER=user -e MYSQL_PASSWORD=mysql -p 33060:3306 -d mysql/mysql-server:5.7
+      - name: Docker Redis
+        run: docker run --name cache -p 6378:6379 -d redis
       - name: Build with Maven
         run: mvn -B package --file pom.xml -Pno-selenium
