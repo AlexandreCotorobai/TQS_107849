@@ -37,7 +37,7 @@ function TripsTable({ trips, cur, rate}) {
                         <td className="px-4 py-4 whitespace-nowrap">{trip.id}</td>
                         <td className="px-4 py-4 whitespace-nowrap">{trip.origin}</td>
                         <td className="px-4 py-4 whitespace-nowrap">{trip.destination}</td>
-                        <td className="px-4 py-4 whitespace-nowrap">{trip.price}</td>
+                        <td className="px-4 py-4 whitespace-nowrap">{trip.company}</td>
                         <td className="px-4 py-4 whitespace-nowrap">{adjustPrice(trip.price)}</td>
                         <td className="px-4 py-4 whitespace-nowrap">{cur}</td>
                         <td className="px-4 py-4 whitespace-nowrap">{trip.departureDateTime}</td>
