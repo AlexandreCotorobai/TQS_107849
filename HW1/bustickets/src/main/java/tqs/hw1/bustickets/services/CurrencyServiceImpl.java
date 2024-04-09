@@ -78,10 +78,10 @@ public class CurrencyServiceImpl implements CurrencyService {
         apiCalls++;
         try {
             JSONObject jsonObject = new JSONObject(response.getBody());
-            Float rate = jsonObject.getFloat("rate");
+            Double rate = jsonObject.getDouble("rate");
 
             // Save the new currency
-            Currency newCurrency = new Currency(currencyTo, rate.doubleValue());
+            Currency newCurrency = new Currency(currencyTo, rate);
             currencyRepository.save(newCurrency);
 
             return newCurrency;
@@ -99,5 +99,12 @@ public class CurrencyServiceImpl implements CurrencyService {
         stats.put("apiMisses", apiMisses);
         return stats;
     }
+    
+    public void resetStats() {
+        apiCalls = 0;
+        cacheHits = 0;
+        apiMisses = 0;
+    }
 
+    
 }

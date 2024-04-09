@@ -4,14 +4,14 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.never;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.springframework.http.*;
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +22,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
 
 import tqs.hw1.bustickets.services.CurrencyServiceImpl;
 import tqs.hw1.bustickets.repositories.CurrencyRepository;
@@ -44,6 +45,7 @@ class CurrencyServiceTest {
 
     @BeforeEach
     void setUp() throws IOException {
+        currencyService.resetStats();
         MockitoAnnotations.openMocks(this);
 
         Currency currency1 = new Currency("AED", 1.0);
@@ -104,4 +106,73 @@ class CurrencyServiceTest {
         assertEquals("AED", currency.getId());
     }
 
+    @Test
+    @DisplayName("Test getCurrencyRate when currency is not in cache")
+    void testGetCurrencyRateNotInCache() {
+        // Mock the HTTP response from the external API
+        String responseBody = "{\"rate\": 1.0}";
+        ResponseEntity<String> mockResponse = new ResponseEntity<>(responseBody, HttpStatus.OK);
+        Mockito.when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
+                .thenReturn(mockResponse);
+
+        // Call getCurrencyRate with a currency that's not in the cache
+        Currency currency = currencyService.getCurrencyRate("USD");
+
+        // Verify that the returned currency has the expected values
+        assertEquals("USD", currency.getId());
+        assertEquals(1.0, currency.getEurRate());
+
+        // Verify that the currency was saved in the repository
+        Mockito.verify(currencyRepository).save(any(Currency.class));
+    }
+
+    @Test
+    @DisplayName("Test getCurrencyRate when currency is in cache")
+    void testGetCurrencyRateInCache() {
+        // Call getCurrencyRate with a currency that's in the cache
+        Currency currency = currencyService.getCurrencyRate("AED");
+
+        // Verify that the returned currency has the expected values
+        assertEquals("AED", currency.getId());
+        assertEquals(1.0, currency.getEurRate());
+
+        // Verify that the external API was not called
+        Mockito.verify(restTemplate, never()).exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class),
+                eq(String.class));
+    }
+
+    @Test
+    @DisplayName("Test getAllStats")
+    void testGetAllStats() {
+        // Call getAllStats
+        Map<String, Integer> stats = currencyService.getAllStats();
+
+        // Verify that the returned stats have the expected values
+        assertEquals(0, stats.get("apiCalls"));
+        assertEquals(0, stats.get("cacheHits"));
+        assertEquals(0, stats.get("apiMisses"));
+    }
+    
+    @Test
+    @DisplayName("Test getCurrencyRate when API response is not valid JSON")
+    void testGetCurrencyRateInvalidJson() {
+        // Mock the HTTP response from the external API
+        String responseBody = "This is not valid JSON";
+        ResponseEntity<String> mockResponse = new ResponseEntity<>(responseBody, HttpStatus.OK);
+        Mockito.when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
+            .thenReturn(mockResponse);
+    
+        // Call getCurrencyRate with a currency that's not in the cache
+        Currency currency = currencyService.getCurrencyRate("USD");
+        List<String> currencyList = currencyService.getCurrencyList();
+
+        // Verify that the returned currency is null
+        assertNull(currency);
+        assertTrue(currencyList.isEmpty());
+
+        // Call getAllStats and verify that apiMisses is 1
+        Map<String, Integer> stats = currencyService.getAllStats();
+        assertEquals(2, stats.get("apiMisses"));
+    }
+    
 }
