@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  mysql5tqs:
+    container_name: mysql5tqs
+    image: mysql/mysql-server:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: bustickets
+      MYSQL_USER: user
+      MYSQL_PASSWORD: mysql
+    ports:
+      - "33060:3306"
+    restart: always
+
+  # init_mysql_db:
+  #   depends_on:
+  #     - mysql5tqs
+  #   build:
+  #     context: init_db

@@ -6,6 +6,7 @@ import org.json.*;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 
@@ -74,9 +75,9 @@ public class CurrencyServiceImpl implements CurrencyService {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-        apiCalls++;
         try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+            apiCalls++;
             JSONObject jsonObject = new JSONObject(response.getBody());
             Double rate = jsonObject.getDouble("rate");
 
@@ -85,7 +86,12 @@ public class CurrencyServiceImpl implements CurrencyService {
             currencyRepository.save(newCurrency);
 
             return newCurrency;
-        } catch (JSONException e) {
+        } catch (HttpClientErrorException.TooManyRequests e) {
+            // Handle the rate limit exception
+            System.out.println("Rate limit exceeded: " + e.getMessage());
+            apiMisses++;
+            return null;
+        } catch (Exception e) {
             apiMisses++;
             return null;
         }
