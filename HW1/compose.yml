@@ -1,4 +1,3 @@
-version: '3.9'
 
 services:
   mysql5tqs:
@@ -12,9 +11,59 @@ services:
     ports:
       - "33060:3306"
     restart: always
+    volumes:
+      - mysql_data:/var/lib/mysql
 
-  # init_mysql_db:
+  frontend:
+      build:
+        context: frontend
+      container_name: frontend
+      ports:
+        - 5173:5173
+      volumes:
+        - frontend_node_modules:/frontend/node_modules
+        - ./frontend:/frontend
+      stdin_open: true
+      tty: true
+      # env_file: .env
+
+  cache:
+    container_name: cache
+    image: redis:latest
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 50s
+      retries: 5
+    expose:
+      - "6379:6379"
+
+  api:
+    build:
+      context: bustickets
+    depends_on:
+      - mysql5tqs
+      - cache
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    # env_file:
+    #   - .env
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url" : "jdbc:mysql://mysql5tqs:3306/bustickets",
+        "spring.datasource.username" : "user",
+        "spring.datasource.password" : "mysql"
+        }'
+
+  # init_db:
   #   depends_on:
   #     - mysql5tqs
   #   build:
   #     context: init_db
+
+volumes:
+  mysql_data:
+    driver: local
+  frontend_node_modules:
+    driver: local
