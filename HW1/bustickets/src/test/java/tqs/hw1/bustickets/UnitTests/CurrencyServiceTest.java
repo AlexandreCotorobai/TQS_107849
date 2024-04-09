@@ -3,6 +3,7 @@ package tqs.hw1.bustickets.UnitTests;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,7 +28,7 @@ import tqs.hw1.bustickets.repositories.CurrencyRepository;
 import tqs.hw1.bustickets.entities.Currency;
 
 @ExtendWith(MockitoExtension.class)
-public class CurrencyServiceTest {
+class CurrencyServiceTest {
 
     @Mock(lenient = true)
     private CurrencyRepository currencyRepository;
@@ -51,30 +52,23 @@ public class CurrencyServiceTest {
 
         List<Currency> allCurrencies = List.of(currency1, currency2, currency3);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-RapidAPI-Key", "3415486a66mshd23ed060781a945p1b90cajsnd77d659a2fa6");
-        headers.set("X-RapidAPI-Host", "twelve-data1.p.rapidapi.com");
-
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-
         ResponseEntity<String> mockResponse = new ResponseEntity<>(CurrencyAPIResponse.resList, HttpStatus.OK);
 
         Mockito.when(restTemplate.exchange(
                 eq("https://twelve-data1.p.rapidapi.com/forex_pairs?currency_base=EUR&format=json"),
                 eq(HttpMethod.GET),
-                eq(entity),
+                any(HttpEntity.class),
                 eq(String.class))).thenReturn(mockResponse);
 
         ResponseEntity<String> mockResponse2 = new ResponseEntity<>(CurrencyAPIResponse.resRate, HttpStatus.OK);
 
         Mockito.when(restTemplate.exchange(
-                Mockito.matches("https://twelve-data1.p.rapidapi.com/exchange_rate\\?symbol=EUR%2F.*"),
+                Mockito.matches("https://twelve-data1.p.rapidapi.com/exchange_rate\\?symbol=EUR/.*"),
                 eq(HttpMethod.GET),
-                eq(entity),
+                any(HttpEntity.class),
                 eq(String.class))).thenReturn(mockResponse2);
 
         Mockito.when(restTemplateBuilder.build()).thenReturn(restTemplate);
-
         Mockito.when(currencyRepository.findAll()).thenReturn(allCurrencies);
         Mockito.when(currencyRepository.findById(currency1.getId())).thenReturn(Optional.of(currency1));
         Mockito.when(currencyRepository.findById(currency2.getId())).thenReturn(Optional.of(currency2));
@@ -83,7 +77,7 @@ public class CurrencyServiceTest {
 
     @Test
     @DisplayName("Test getCurrencyList")
-    public void testGetCurrencyList() {
+    void testGetCurrencyList() {
         List<String> expectedCurrencyList = List.of("AED", "AFN", "ALL");
         List<String> actualCurrencyList = currencyService.getCurrencyList();
         assertEquals(expectedCurrencyList, actualCurrencyList,
@@ -92,20 +86,22 @@ public class CurrencyServiceTest {
 
     @Test
     @DisplayName("Test getCurrencyById")
-    public void testGetCurrencyById() {
-        double rate = currencyService.getCurrencyRate("AED");
-        assertEquals(1.0, rate);
+    void testGetCurrencyById() {
+        Currency currency = currencyService.getCurrencyRate("AED");
+        assertEquals(1.0, currency.getEurRate());
+        assertEquals("AED", currency.getId());
     }
 
     @Test
     @DisplayName("Test getCurrencyById when cached")
-    public void testGetCurrencyByIdCached() {
-        double rate = currencyService.getCurrencyRate("AED");
+    void testGetCurrencyByIdCached() {
+        Currency currency = currencyService.getCurrencyRate("AED");
 
         Mockito.when(restTemplateBuilder.build()).thenReturn(null);
 
-        rate = currencyService.getCurrencyRate("AED");
-        assertEquals(1.0, rate);
+        currency = currencyService.getCurrencyRate("AED");
+        assertEquals(1.0, currency.getEurRate());
+        assertEquals("AED", currency.getId());
     }
 
 }
