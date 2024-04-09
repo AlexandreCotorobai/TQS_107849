@@ -6,7 +6,6 @@ import org.json.*;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 
@@ -86,12 +85,8 @@ public class CurrencyServiceImpl implements CurrencyService {
             currencyRepository.save(newCurrency);
 
             return newCurrency;
-        } catch (HttpClientErrorException.TooManyRequests e) {
-            // Handle the rate limit exception
-            System.out.println("Rate limit exceeded: " + e.getMessage());
-            apiMisses++;
-            return null;
         } catch (Exception e) {
+            // Handle the rate limit exception
             apiMisses++;
             return null;
         }

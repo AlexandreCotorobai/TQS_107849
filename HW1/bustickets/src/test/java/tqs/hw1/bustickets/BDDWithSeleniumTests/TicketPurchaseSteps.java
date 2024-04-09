@@ -6,7 +6,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-
+import java.time.Duration;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
@@ -54,12 +56,9 @@ public class TicketPurchaseSteps {
 
     @Then("I should see the ticket list")
     public void i_should_see_the_ticket_list() {
-        try {
-            // Usefull because of delays in the api
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        wait.until(driver -> homePage.buyButtonExists());
+
         assertTrue(homePage.buyButtonExists());
     }
 
@@ -71,18 +70,12 @@ public class TicketPurchaseSteps {
 
     @Then("I should be in {string}")
     public void i_should_be_in(String expectedTitle) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        try {
-            String actualTitle = driver.getTitle();
-            assertTrue(actualTitle.contains(expectedTitle));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.titleContains(expectedTitle));
+
+        String actualTitle = driver.getTitle();
+        assertTrue(actualTitle.contains(expectedTitle));
+
     }
 
     @When("I fill the form with the following data:")
@@ -107,12 +100,12 @@ public class TicketPurchaseSteps {
         detailsPage = new DetailsPage(driver);
         ticketcode = detailsPage.getTicketDetails();
     }
-    
+
     @When("I click on 'Back to homepage'")
     public void i_click_on_back_to_homepage() {
         detailsPage.clickBusTicketsLink();
     }
-    
+
     @When("I type my reservation code")
     public void i_type_my_reservation_code() {
         detailsPage.typeReservationCode(ticketcode);

@@ -48,12 +48,6 @@ public class HomePage {
     }
 
     public void submitForm() {
-        try {
-            // Wait for 3 seconds
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         submitButton.click();
     }
 
