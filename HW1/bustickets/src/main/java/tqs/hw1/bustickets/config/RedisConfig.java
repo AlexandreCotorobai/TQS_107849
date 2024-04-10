@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RedisConfig {
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
-        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("cache", 6379);
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("localhost", 6379);
         return new JedisConnectionFactory(config);
     }
     
