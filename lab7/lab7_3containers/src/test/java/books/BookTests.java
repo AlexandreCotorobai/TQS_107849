@@ -36,11 +36,11 @@ class BookTests {
 	@Test
 	void testCreate() {
 		Book book = new Book();
-		book.setTitle("Test0");
-		book.setAuthor("Test0");
-		book.setGenre("Test0");
-		book.setYear(2021);
-		book.setPrice(19.90);
+		book.setTitle("Title");
+		book.setAuthor("Autor");
+		book.setGenre("Gnre");
+		book.setYear(1999);
+		book.setPrice(20.90);
 		bookRepository.save(book);
 
 		Book found = bookRepository.findById(book.getId()).orElse(null);
@@ -51,27 +51,27 @@ class BookTests {
 	@Test
 	void testUpdate() {
 		Book book = new Book();
-		book.setTitle("Test");
-		book.setAuthor("Test");
-		book.setGenre("Test");
-		book.setYear(2021);
-		book.setPrice(19.90);
+		book.setTitle("Title");
+		book.setAuthor("Autor");
+		book.setGenre("Gnre");
+		book.setYear(1999);
+		book.setPrice(20.90);
 		bookRepository.save(book);
 
-		book.setTitle("Test5");
+		book.setTitle("Title2");
 		bookRepository.save(book);
 
-		assertThat(bookRepository.findById(book.getId()).get().getTitle()).isEqualTo("Test5");
+		assertThat(bookRepository.findById(book.getId()).get().getTitle()).isEqualTo("Title2");
 	}
 
 	@Test
 	void testDelete() {
 		Book book = new Book();
-		book.setTitle("Test");
-		book.setAuthor("Test");
-		book.setGenre("Test");
-		book.setYear(2021);
-		book.setPrice(19.90);
+		book.setTitle("Title");
+		book.setAuthor("Autor");
+		book.setGenre("Gnre");
+		book.setYear(1999);
+		book.setPrice(20.90);
 		bookRepository.save(book);
 
 		bookRepository.delete(book);
@@ -95,11 +95,11 @@ class BookTests {
 	@Test
 	void testFindById() {
 		Book book = new Book();
-		book.setTitle("Test2");
-		book.setAuthor("Test2");
-		book.setGenre("Test2");
-		book.setYear(2021);
-		book.setPrice(19.90);
+		book.setTitle("Title");
+		book.setAuthor("Autor");
+		book.setGenre("Gnre");
+		book.setYear(1999);
+		book.setPrice(20.90);
 		bookRepository.save(book);
 
 		Book found = bookRepository.findById(book.getId()).orElse(null);
@@ -111,14 +111,14 @@ class BookTests {
 	@Test
 	void testFindByTitle() {
 		Book book = new Book();
-		book.setTitle("Test3");
-		book.setAuthor("Test3");
-		book.setGenre("Test3");
-		book.setYear(2021);
-		book.setPrice(19.90);
+		book.setTitle("Title");
+		book.setAuthor("Autor");
+		book.setGenre("Gnre");
+		book.setYear(1999);
+		book.setPrice(20.90);
 		bookRepository.save(book);
 
-		Book found = bookRepository.findByTitle("Test3").orElse(null);
+		Book found = bookRepository.findByTitle("Title").orElse(null);
 
 		assertThat(found.getTitle()).isEqualTo(book.getTitle());
 		assertThat(found.getId()).isEqualTo(book.getId());
